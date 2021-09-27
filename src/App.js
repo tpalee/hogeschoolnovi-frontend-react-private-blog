@@ -6,13 +6,13 @@ import Blogposts from "./pages/Blogposts";
 import Blog from "./pages/Blog";
 import Nav from "./pages/Nav";
 import posts from './data/posts.json';
-
+import PrivateRoute from "./Components/PrivateRoute";
 
 import {
     Switch,
     Route,
-    Redirect,
 } from 'react-router-dom';
+
 
 
 
@@ -41,14 +41,17 @@ function loginClick(){
                 <Route path="/login">
                 <Login login={loginClick}
                 />
+                </Route>
 
-                </Route>
-                <Route exact path="/blogposts">
-                    {isAuthenticated ? <Blogposts posts={posts}/> : <Redirect to="/"/>}
-                </Route>
-                <Route path="/blogposts/blog/:blogId">
+                <PrivateRoute isAuthenticated={isAuthenticated} exact path="/blogposts">
+                    <Blogposts  posts={posts}/>
+                </PrivateRoute>
+
+                <PrivateRoute isAuthenticated={isAuthenticated} path="/blogposts/blog/:blogId">
                     <Blog posts={posts}/>
-                </Route>
+                </PrivateRoute>
+
+
             </Switch>
         </div>
     );
